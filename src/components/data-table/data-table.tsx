@@ -90,7 +90,7 @@ export function DataTable<TData>({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15, delay: i * 0.01 }}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() ? "selected" : undefined}
                   className="border-b border-border-soft hover:bg-white/[0.03] transition-colors duration-150 data-[state=selected]:bg-accent/[0.06]"
                 >
                   {row.getVisibleCells().map((cell) => (

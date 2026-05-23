@@ -2,7 +2,9 @@ import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import * as schema from "./schema";
 
-const sqlite = new Database("data.db");
+const dbPath = process.env.DATABASE_URL ?? "data.db";
+
+const sqlite = new Database(dbPath);
 sqlite.pragma("journal_mode = WAL");
 sqlite.pragma("busy_timeout = 5000");
 

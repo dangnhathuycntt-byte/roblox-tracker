@@ -18,6 +18,19 @@ const SORTABLE_COLUMNS = {
 
 type SortKey = keyof typeof SORTABLE_COLUMNS;
 
+function parseJson(input: unknown): string {
+  if (typeof input === "string") return input;
+  return JSON.stringify(input);
+}
+
+const SAFE_FIELDS = new Set([
+  "username", "platform", "current_slot", "level", "gold", "gems",
+  "prestige", "xp", "spins", "inventory_count", "perks_count",
+  "inventory", "perks", "note_tag", "is_online", "last_seen",
+  "customised", "spins_used", "bought_spins", "status", "family",
+  "tutorial", "created",
+]);
+
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
 
@@ -103,76 +116,111 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "invalid JSON body" }, { status: 400 });
+  }
 
-  if (!body.username) {
-    return NextResponse.json({ error: "username is required" }, { status: 400 });
+  if (!body.username || typeof body.username !== "string") {
+    return NextResponse.json({ error: "username is required and must be a string" }, { status: 400 });
   }
 
   const values: Record<string, unknown> = { updatedAt: new Date().toISOString() };
 
-  if (body.username !== undefined) values.username = body.username;
-  if (body.platform !== undefined) values.platform = body.platform;
-  if (body.current_slot !== undefined) values.currentSlot = body.current_slot;
-  if (body.level !== undefined) values.level = body.level;
-  if (body.gold !== undefined) values.gold = body.gold;
-  if (body.gems !== undefined) values.gems = body.gems;
-  if (body.prestige !== undefined) values.prestige = body.prestige;
-  if (body.xp !== undefined) values.xp = body.xp;
-  if (body.spins !== undefined) values.spins = body.spins;
-  if (body.inventory_count !== undefined) values.inventoryCount = body.inventory_count;
-  if (body.perks_count !== undefined) values.perksCount = body.perks_count;
-  if (body.inventory !== undefined) values.inventory = typeof body.inventory === "string" ? body.inventory : JSON.stringify(body.inventory);
-  if (body.perks !== undefined) values.perks = typeof body.perks === "string" ? body.perks : JSON.stringify(body.perks);
-  if (body.note_tag !== undefined) values.noteTag = body.note_tag;
-  if (body.is_online !== undefined) values.isOnline = body.is_online;
-  if (body.last_seen !== undefined) values.lastSeen = body.last_seen;
-  if (body.customised !== undefined) values.customised = body.customised;
-  if (body.spins_used !== undefined) values.spinsUsed = body.spins_used;
-  if (body.bought_spins !== undefined) values.boughtSpins = body.bought_spins;
-  if (body.status !== undefined) values.status = body.status;
-  if (body.family !== undefined) values.family = body.family;
-  if (body.tutorial !== undefined) values.tutorial = body.tutorial;
-  if (body.created !== undefined) values.createdAt = body.created;
+  for (const [key, val] of Object.entries(body)) {
+    if (!SAFE_FIELDS.has(key)) continue;
+
+    switch (key) {
+      case "inventory":
+      case "perks":
+        values[key === "inventory" ? "inventory" : "perks"] = parseJson(val);
+        break;
+      case "created":
+        values.createdAt = val;
+        break;
+      case "current_slot":
+        values.currentSlot = val;
+        break;
+      case "inventory_count":
+        values.inventoryCount = val;
+        break;
+      case "perks_count":
+        values.perksCount = val;
+        break;
+      case "note_tag":
+        values.noteTag = val;
+        break;
+      case "is_online":
+        values.isOnline = val;
+        break;
+      case "last_seen":
+        values.lastSeen = val;
+        break;
+      case "spins_used":
+        values.spinsUsed = val;
+        break;
+      case "bought_spins":
+        values.boughtSpins = val;
+        break;
+      default:
+        values[key] = val;
+    }
+  }
 
   const existing = db
-    .select({ username: accounts.username })
+    .select({ id: accounts.id })
     .from(accounts)
-    .where(eq(accounts.username, body.username))
+    .where(eq(accounts.username, body.username as string))
     .get();
 
   if (existing) {
     db.update(accounts)
       .set(values)
-      .where(eq(accounts.username, body.username))
+      .where(eq(accounts.username, body.username as string))
       .run();
   } else {
-    db.insert(accounts)
-      .values({ ...values, createdAt: values.createdAt ?? new Date().toISOString() } as never)
-      .run();
+    values.createdAt = values.createdAt ?? new Date().toISOString();
+    db.insert(accounts).values(values as never).run();
   }
 
   return NextResponse.json({ success: true, username: body.username });
 }
 
 export async function DELETE(request: NextRequest) {
-  const body = await request.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "invalid JSON body" }, { status: 400 });
+  }
 
   if (body.all === true) {
+    if (body.confirm !== "yes-delete-all") {
+      return NextResponse.json(
+        { error: 'must send {"all": true, "confirm": "yes-delete-all"} to delete all accounts' },
+        { status: 400 }
+      );
+    }
     const result = db.delete(accounts).run();
     return NextResponse.json({ deleted: result.changes });
   }
 
   if (Array.isArray(body.ids) && body.ids.length > 0) {
+    const ids = body.ids.filter((id): id is number => typeof id === "number" && Number.isFinite(id));
+    if (ids.length === 0) {
+      return NextResponse.json({ error: "ids must be an array of valid numbers" }, { status: 400 });
+    }
     const result = db
       .delete(accounts)
-      .where(inArray(accounts.id, body.ids))
+      .where(inArray(accounts.id, ids))
       .run();
     return NextResponse.json({ deleted: result.changes });
   }
 
   return NextResponse.json(
-    { error: 'Send {"ids": [1,2,3]} to delete specific accounts or {"all": true} to delete all' },
+    { error: 'Send {"ids": [1,2,3]} to delete specific accounts or {"all": true, "confirm": "yes-delete-all"} to delete all' },
     { status: 400 }
   );
 }

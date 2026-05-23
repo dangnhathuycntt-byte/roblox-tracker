@@ -166,23 +166,6 @@
   --container-gutter-phone:   12px;
 }
 
-/* Dark override — identical since we are dark-native, but ensures correct cascade */
-.dark {
-  --bg:           #08090a;
-  --surface:      #191a1b;
-  --surface-warm: #191a1b;
-  --fg:           #f7f8f8;
-  --fg-2:         #d0d6e0;
-  --muted:        #8a8f98;
-  --meta:         #62666d;
-  --border:       rgba(255, 255, 255, 0.08);
-  --border-soft:  rgba(255, 255, 255, 0.05);
-  --accent:       #5e6ad2;
-  --accent-on:    #ffffff;
-  --accent-hover: #828fff;
-  --accent-active:#4752c4;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;

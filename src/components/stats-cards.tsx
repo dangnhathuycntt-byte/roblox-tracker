@@ -24,7 +24,6 @@ type StatCardData = {
   value: string;
   sub?: string;
   color: string;
-  glowColor: string;
   icon: LucideIcon;
 };
 
@@ -58,7 +57,6 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
       value: `${stats.onlineCount} / ${stats.totalAccounts}`,
       sub: `~> ${pct}%`,
       color: "text-emerald-400",
-      glowColor: "shadow-emerald-500/10",
       icon: Users,
     },
     {
@@ -66,14 +64,12 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
       value: formatNumber(stats.totalGold),
       sub: "0/hr",
       color: "text-amber-400",
-      glowColor: "shadow-amber-500/10",
       icon: Coins,
     },
     {
       label: "PRESTIGE",
       value: formatNumber(stats.totalPrestige),
       color: "text-violet-400",
-      glowColor: "shadow-violet-500/10",
       icon: Award,
     },
     {
@@ -81,7 +77,6 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
       value: formatNumber(stats.totalGems),
       sub: "0/hr",
       color: "text-cyan-400",
-      glowColor: "shadow-cyan-500/10",
       icon: Gem,
     },
     {
@@ -89,21 +84,18 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
       value: formatNumber(stats.totalSpins),
       sub: "0/hr",
       color: "text-orange-400",
-      glowColor: "shadow-orange-500/10",
       icon: RotateCw,
     },
     {
       label: "PERKS",
       value: formatNumber(stats.totalPerks),
       color: "text-teal-400",
-      glowColor: "shadow-teal-500/10",
       icon: Zap,
     },
     {
       label: "INVENTORY",
       value: formatNumber(stats.totalInventory),
       color: "text-sky-400",
-      glowColor: "shadow-sky-500/10",
       icon: Package,
     },
   ];

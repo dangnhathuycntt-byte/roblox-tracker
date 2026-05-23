@@ -310,12 +310,13 @@ export default function DocsPage() {
               <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">Request Body (JSON)</p>
               <p className="text-xs text-muted mb-2">
                 Send <code className="text-accent">{"{\"ids\": [1, 2, 3]}"}</code> to delete specific accounts,
-                or <code className="text-accent">{"{\"all\": true}"}</code> to delete everything.
+                or <code className="text-accent">{"{\"all\": true, \"confirm\": \"yes-delete-all\"}"}</code> to delete everything (confirmation required).
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
                 {[
                   ["ids", "number[]", "Array of account IDs to delete"],
-                  ["all", "boolean", "If true, deletes ALL accounts (requires confirmation)"],
+                  ["all", "boolean", "If true, deletes ALL accounts"],
+                  ["confirm", "string", 'Must be "yes-delete-all" when all=true'],
                 ].map(([field, type, desc]) => (
                   <div key={field} className="flex items-start gap-2 p-2 rounded-[4px] bg-bg border border-border-soft">
                     <code className="text-xs text-accent shrink-0">{field}</code>
@@ -342,7 +343,7 @@ Content-Type: application/json
 {`POST /api/accounts
 Content-Type: application/json
 
-{"all": true}`}</pre>
+{"all": true, "confirm": "yes-delete-all"}`}</pre>
               </div>
             </div>
             <div>
