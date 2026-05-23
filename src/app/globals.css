@@ -1,0 +1,196 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Surface tokens */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-warm: var(--surface-warm);
+
+  /* Foreground tokens */
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-muted: var(--muted);
+  --color-meta: var(--meta);
+
+  /* Border tokens */
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
+
+  /* Accent tokens */
+  --color-accent: var(--accent);
+  --color-accent-on: var(--accent-on);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+
+  /* Semantic tokens */
+  --color-success: var(--success);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+
+  /* shadcn backward compat aliases */
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--fg);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--accent-on);
+  --color-secondary: var(--surface);
+  --color-secondary-foreground: var(--fg-2);
+  --color-muted-foreground: var(--muted);
+  --color-accent-foreground: var(--accent-on);
+  --color-destructive: var(--danger);
+  --color-input: var(--border);
+  --color-ring: var(--accent);
+
+  /* Sidebar -- aliased to surface tokens */
+  --color-sidebar: var(--surface);
+  --color-sidebar-foreground: var(--fg);
+  --color-sidebar-primary: var(--accent);
+  --color-sidebar-primary-foreground: var(--accent-on);
+  --color-sidebar-accent: var(--surface);
+  --color-sidebar-accent-foreground: var(--fg);
+  --color-sidebar-border: var(--border-soft);
+  --color-sidebar-ring: var(--accent);
+
+  /* Chart fallbacks */
+  --color-chart-1: var(--accent);
+  --color-chart-2: var(--success);
+  --color-chart-3: var(--warn);
+  --color-chart-4: var(--accent-hover);
+  --color-chart-5: var(--fg-2);
+
+  /* Typography */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-geist-sans);
+
+  /* Radius scale */
+  --radius-sm: var(--radius-sm-val);
+  --radius-md: var(--radius-md-val);
+  --radius-lg: var(--radius-lg-val);
+  --radius-xl: var(--radius-lg-val);
+  --radius-2xl: var(--radius-lg-val);
+  --radius-3xl: calc(var(--radius-lg-val) * 1.5);
+  --radius-4xl: calc(var(--radius-lg-val) * 2);
+}
+
+:root {
+  /* Surfaces — Linear dark-native palette */
+  --bg:           #08090a;
+  --surface:      #191a1b;
+  --surface-warm: #191a1b;
+
+  /* Foreground — luminance hierarchy */
+  --fg:     #f7f8f8;
+  --fg-2:   #d0d6e0;
+  --muted:  #8a8f98;
+  --meta:   #62666d;
+
+  /* Borders — semi-transparent white */
+  --border:      rgba(255, 255, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.05);
+
+  /* Accent — indigo-violet */
+  --accent:        #5e6ad2;
+  --accent-on:     #ffffff;
+  --accent-hover:  #828fff;
+  --accent-active: #4752c4;
+
+  /* Semantic */
+  --success: #27a644;
+  --warn:    #eab308;
+  --danger:  #dc2626;
+
+  /* Typography */
+  --font-display: "Inter Variable", "Inter", "SF Pro Display", -apple-system, sans-serif;
+  --font-body:    "Inter Variable", "Inter", "SF Pro Display", -apple-system, sans-serif;
+
+  /* Type scale */
+  --text-xs:   12px;
+  --text-sm:   14px;
+  --text-base: 16px;
+  --text-lg:   18px;
+  --text-xl:   24px;
+  --text-2xl:  32px;
+  --text-3xl:  48px;
+  --text-4xl:  72px;
+
+  /* Leading */
+  --leading-body:  1.5;
+  --leading-tight: 1.0;
+
+  /* Spacing (4px grid) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+
+  /* Section rhythm */
+  --section-y-desktop: 80px;
+  --section-y-tablet:  48px;
+  --section-y-phone:   32px;
+
+  /* Radius */
+  --radius-sm-val:   6px;
+  --radius-md-val:   8px;
+  --radius-lg-val:   12px;
+  --radius-pill:     9999px;
+
+  /* Elevation — luminance stepping */
+  --elev-flat:   none;
+  --elev-ring:   0 0 0 1px var(--border);
+  --elev-raised: rgba(0, 0, 0, 0.4) 0px 2px 4px, 0 0 0 1px rgba(255, 255, 255, 0.05);
+
+  /* Focus */
+  --focus-ring: 0 0 0 2px color-mix(in oklab, var(--accent), transparent 30%), 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  /* Motion */
+  --motion-fast:   150ms;
+  --motion-base:   200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Layout */
+  --container-max:            1200px;
+  --container-gutter-desktop: 24px;
+  --container-gutter-tablet:  16px;
+  --container-gutter-phone:   12px;
+}
+
+/* Dark override — identical since we are dark-native, but ensures correct cascade */
+.dark {
+  --bg:           #08090a;
+  --surface:      #191a1b;
+  --surface-warm: #191a1b;
+  --fg:           #f7f8f8;
+  --fg-2:         #d0d6e0;
+  --muted:        #8a8f98;
+  --meta:         #62666d;
+  --border:       rgba(255, 255, 255, 0.08);
+  --border-soft:  rgba(255, 255, 255, 0.05);
+  --accent:       #5e6ad2;
+  --accent-on:    #ffffff;
+  --accent-hover: #828fff;
+  --accent-active:#4752c4;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-bg text-fg antialiased;
+  }
+  html {
+    @apply font-sans;
+  }
+}
