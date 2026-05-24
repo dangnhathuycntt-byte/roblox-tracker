@@ -15,11 +15,13 @@ import {
   Skull,
   Bug,
   Dice5,
+  BookOpen,
   BarChart3,
   Bell,
   LineChart,
   Share2,
 } from "lucide-react";
+import Link from "next/link";
 
 const GAMES = [
   { name: "Attack On Titan Revolution", icon: Swords, active: true },
@@ -36,6 +38,7 @@ const GAMES = [
 ];
 
 const NAV_ITEMS = [
+  { name: "API Docs", icon: BookOpen, href: "/docs" },
   { name: "Game Insights", icon: BarChart3 },
   { name: "Alert Center", icon: Bell },
   { name: "Chart", icon: LineChart },
@@ -86,16 +89,38 @@ export function Sidebar() {
         <div className="flex flex-col gap-0.5 pb-4">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
+            const content = (
+              <>
+                <Icon className="h-4 w-4 shrink-0" />
+                <span>{item.name}</span>
+              </>
+            );
+            const className = "w-full flex items-center gap-3 px-3 py-2 rounded-md text-[13px] text-muted hover:text-fg hover:bg-white/[0.04] transition-all duration-200";
+
+            if (item.href) {
+              return (
+                <motion.div
+                  key={item.name}
+                  whileHover={{ x: 2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <Link href={item.href} className={className}>
+                    {content}
+                  </Link>
+                </motion.div>
+              );
+            }
+
             return (
               <motion.button
                 key={item.name}
                 whileHover={{ x: 2 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.15 }}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-[13px] text-muted hover:text-fg hover:bg-white/[0.04] transition-all duration-200"
+                className={className}
               >
-                <Icon className="h-4 w-4 shrink-0" />
-                <span>{item.name}</span>
+                {content}
               </motion.button>
             );
           })}

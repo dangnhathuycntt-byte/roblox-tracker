@@ -3,7 +3,7 @@ set -e
 
 # ── CONFIG ──
 VPS_USER="root"                          # change to your VPS user
-VPS_IP="1.2.3.4"                         # change to your VPS IP
+VPS_IP="103.82.23.82"                         # change to your VPS IP
 VPS_PATH="/root/roblox-tracker"           # app folder on VPS
 DB_FILE="data.db"
 KEEP_BACKUPS=3
@@ -15,7 +15,7 @@ npm run build
 
 echo "=== Preparing deploy package ==="
 TMP_DIR=$(mktemp -d)
-cp -r .next/standalone/* "$TMP_DIR/"
+cp -r .next/standalone/Projects/roblox-tracker/* "$TMP_DIR/"
 cp -r .next/static "$TMP_DIR/.next/"
 cp -r public "$TMP_DIR/" 2>/dev/null || true
 cp -f "$DB_FILE" "$TMP_DIR/" 2>/dev/null || echo "  (no local data.db to copy)"
