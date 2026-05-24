@@ -44,3 +44,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# tools & archives
+*.zip
+pstools/
+node-extracted/
+nssm-extracted/
+
+# logs
+server-err.log
+server-out.log
+
+# playwright mcp
+.playwright-mcp/
+
+# deploy scripts (keep only deploy.sh)
+start-prod.bat

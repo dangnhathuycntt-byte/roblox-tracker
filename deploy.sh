@@ -2,8 +2,8 @@
 set -e
 
 # ── CONFIG ──
-VPS_USER="root"                          # change to your VPS user
-VPS_IP="103.82.23.82"                         # change to your VPS IP
+VPS_USER="${VPS_USER:-root}"
+VPS_IP="${VPS_IP:?Set VPS_IP before running (e.g. VPS_IP=1.2.3.4 ./deploy.sh)}"
 VPS_PATH="/root/roblox-tracker"           # app folder on VPS
 DB_FILE="data.db"
 KEEP_BACKUPS=3
@@ -15,7 +15,9 @@ npm run build
 
 echo "=== Preparing deploy package ==="
 TMP_DIR=$(mktemp -d)
-cp -r .next/standalone/Projects/roblox-tracker/* "$TMP_DIR/"
+# Next.js standalone mirrors the project's absolute path; find server.js to locate the app root
+APP_ROOT=$(dirname "$(find .next/standalone -name server.js -not -path '*/node_modules/*' | head -1)")
+cp -r "$APP_ROOT"/* "$TMP_DIR/"
 cp -r .next/static "$TMP_DIR/.next/"
 cp -r public "$TMP_DIR/" 2>/dev/null || true
 cp -f "$DB_FILE" "$TMP_DIR/" 2>/dev/null || echo "  (no local data.db to copy)"
@@ -46,12 +48,12 @@ if ! command -v pm2 &>/dev/null; then
   npm install -g pm2
 fi
 
-# Rebuild native addons for Linux
-npm rebuild better-sqlite3
+# Rebuild native addons for Linux (standalone lacks source, so reinstall)
+npm install better-sqlite3 --no-save
 
 # Start / restart app
 pm2 delete roblox-tracker 2>/dev/null || true
-pm2 start server.js --name roblox-tracker --port 3000
+PORT=3000 pm2 start server.js --name roblox-tracker
 pm2 save
 ENDSSH
 
