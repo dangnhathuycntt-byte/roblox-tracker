@@ -17,6 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { motion, AnimatePresence } from "framer-motion";
+import { Inbox } from "lucide-react";
 
 type DataTableProps<TData> = {
   columns: ColumnDef<TData, unknown>[];
@@ -110,9 +111,13 @@ export function DataTable<TData>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-32 text-center text-muted"
+                  className="h-40 text-center"
                 >
-                  No accounts found.
+                  <div className="flex flex-col items-center gap-2 text-muted">
+                    <Inbox className="h-8 w-8 text-meta" />
+                    <p className="text-sm font-medium">No accounts found</p>
+                    <p className="text-xs text-meta">Try adjusting your search or filters</p>
+                  </div>
                 </TableCell>
               </TableRow>
             )}

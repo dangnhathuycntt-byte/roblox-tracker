@@ -20,6 +20,7 @@ import {
   Bell,
   LineChart,
   Share2,
+  Settings,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -49,7 +50,7 @@ export function Sidebar() {
   return (
     <aside className="w-60 shrink-0 border-r border-border-soft bg-surface/50 backdrop-blur-xl flex flex-col h-full">
       <div className="flex items-center gap-3 px-5 py-5">
-        <div className="h-8 w-8 rounded-md bg-accent/15 flex items-center justify-center">
+        <div className="h-8 w-8 rounded-lg bg-accent/15 flex items-center justify-center">
           <Swords className="h-4 w-4 text-accent" />
         </div>
         <span className="font-semibold text-[15px] tracking-tight text-fg">
@@ -71,12 +72,15 @@ export function Sidebar() {
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.15 }}
                 className={cn(
-                  "w-full flex items-center gap-3 px-3 py-2 rounded-md text-[13px] text-left transition-all duration-200",
+                  "w-full flex items-center gap-3 px-3 py-2 rounded-md text-[13px] text-left transition-all duration-200 relative",
                   game.active
-                    ? "bg-accent/10 text-accent border border-accent/20"
+                    ? "bg-accent/10 text-accent font-medium"
                     : "text-muted hover:text-fg hover:bg-white/[0.04]"
                 )}
               >
+                {game.active && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 rounded-r-full bg-accent" />
+                )}
                 <Icon className="h-4 w-4 shrink-0" />
                 <span className="truncate">{game.name}</span>
               </motion.button>
@@ -126,6 +130,13 @@ export function Sidebar() {
           })}
         </div>
       </ScrollArea>
+
+      <div className="px-3 py-3 border-t border-border-soft">
+        <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-[13px] text-meta hover:text-fg hover:bg-white/[0.04] transition-all duration-200">
+          <Settings className="h-4 w-4 shrink-0" />
+          <span>Settings</span>
+        </button>
+      </div>
     </aside>
   );
 }

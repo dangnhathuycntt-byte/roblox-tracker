@@ -25,6 +25,7 @@ type StatCardData = {
   sub?: string;
   color: string;
   icon: LucideIcon;
+  highlight?: boolean;
 };
 
 const cardVariants = {
@@ -35,11 +36,11 @@ const cardVariants = {
 export function StatsCards({ stats, isLoading }: StatsCardsProps) {
   if (isLoading || !stats) {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
         {Array.from({ length: 7 }).map((_, i) => (
           <div
             key={i}
-            className="rounded-md bg-surface border border-border p-4 animate-pulse h-24"
+            className="rounded-lg bg-surface border border-border p-4 animate-pulse h-[88px]"
           />
         ))}
       </div>
@@ -55,14 +56,14 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
     {
       label: "ONLINE / TOTAL",
       value: `${stats.onlineCount} / ${stats.totalAccounts}`,
-      sub: `~> ${pct}%`,
+      sub: `${pct}%`,
       color: "text-emerald-400",
       icon: Users,
+      highlight: true,
     },
     {
       label: "GOLD",
       value: formatNumber(stats.totalGold),
-      sub: "0/hr",
       color: "text-amber-400",
       icon: Coins,
     },
@@ -75,14 +76,12 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
     {
       label: "GEMS",
       value: formatNumber(stats.totalGems),
-      sub: "0/hr",
       color: "text-cyan-400",
       icon: Gem,
     },
     {
       label: "SPINS",
       value: formatNumber(stats.totalSpins),
-      sub: "0/hr",
       color: "text-orange-400",
       icon: RotateCw,
     },
@@ -101,7 +100,7 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
       {cards.map((card, i) => {
         const Icon = card.icon;
         return (
@@ -110,24 +109,28 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
             variants={cardVariants}
             initial="hidden"
             animate="visible"
-            whileHover={{ scale: 1.03, y: -2 }}
-            transition={{ duration: 0.35, delay: i * 0.05 }}
-            className={`relative rounded-md bg-surface border border-border p-4 flex flex-col gap-2 cursor-default shadow-sm hover:border-border/80 transition-colors duration-200`}
+            whileHover={{ scale: 1.02, y: -1 }}
+            transition={{ duration: 0.35, delay: i * 0.04 }}
+            className={`relative rounded-lg p-4 flex flex-col gap-2.5 cursor-default transition-colors duration-200 ${
+              card.highlight
+                ? "bg-emerald-500/[0.08] border border-emerald-500/20 hover:border-emerald-500/30"
+                : "bg-surface border border-border hover:border-border/80"
+            }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <Icon className={`h-3.5 w-3.5 ${card.color} opacity-70`} />
+                <Icon className={`h-3.5 w-3.5 ${card.color} opacity-60`} />
                 <span className="text-[10px] font-semibold text-meta uppercase tracking-[0.1em]">
                   {card.label}
                 </span>
               </div>
               {card.sub && (
-                <span className="text-[10px] text-muted font-medium">
+                <span className={`text-[10px] font-medium ${card.highlight ? "text-emerald-400/70" : "text-muted"}`}>
                   {card.sub}
                 </span>
               )}
             </div>
-            <span className={`text-2xl font-bold tracking-tight ${card.color}`}>
+            <span className={`text-xl font-bold tracking-tight ${card.color}`}>
               {card.value}
             </span>
           </motion.div>
