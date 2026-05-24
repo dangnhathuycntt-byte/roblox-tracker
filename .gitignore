@@ -58,5 +58,5 @@ server-out.log
 # playwright mcp
 .playwright-mcp/
 
-# deploy scripts (keep only deploy.sh)
+# temp deploy scripts
 start-prod.bat
