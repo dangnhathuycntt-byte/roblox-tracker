@@ -38,7 +38,7 @@ const GAMES = [
 ];
 
 const NAV_ITEMS = [
-  { name: "API Docs", icon: BookOpen, href: "/docs" },
+  { name: "API Docs", icon: BookOpen, href: "/dashboard/docs" },
   { name: "Game Insights", icon: BarChart3 },
   { name: "Alert Center", icon: Bell },
   { name: "Chart", icon: LineChart },

@@ -60,5 +60,5 @@ ENDSSH
 echo ""
 echo "=== Deploy complete! ==="
 echo "Dashboard:   http://$VPS_IP:3000/dashboard"
-echo "Docs:        http://$VPS_IP:3000/docs"
+echo "Docs:        http://$VPS_IP:3000/dashboard/docs"
 echo "API:         http://$VPS_IP:3000/api/accounts"
