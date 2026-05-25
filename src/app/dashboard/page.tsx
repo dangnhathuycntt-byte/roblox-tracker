@@ -3,15 +3,19 @@
 import { useState, useCallback, useMemo } from "react";
 import { type SortingState, type RowSelectionState } from "@tanstack/react-table";
 import { motion } from "framer-motion";
-import { Radio, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { useAccounts } from "@/hooks/use-accounts";
 import { StatsCards } from "@/components/stats-cards";
 import { DataTable } from "@/components/data-table/data-table";
+import { DataFamilyView } from "@/components/data-table/grid-view";
 import { DataTableToolbar } from "@/components/data-table/toolbar";
 import { DataTablePagination } from "@/components/data-table/pagination";
 import { columns } from "@/components/data-table/columns";
 import { Button } from "@/components/ui/button";
+import { ConfirmDeleteDialog } from "@/components/confirm-delete-dialog";
 import type { Account } from "@/db/schema";
+
+const CURRENT_GAME = "Attack On Titan Revolution";
 
 export default function DashboardPage() {
   const [page, setPage] = useState(1);
@@ -20,6 +24,9 @@ export default function DashboardPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "online" | "offline">("all");
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [viewMode, setViewMode] = useState<"table" | "family">("table");
 
   const sortParam = sorting.length > 0 ? sorting[0].id : undefined;
   const orderParam = sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined;
@@ -61,16 +68,26 @@ export default function DashboardPage() {
       .filter(Boolean);
   }, [rowSelection, response?.data]);
 
-  const handleDeleteSelected = useCallback(async () => {
+  const handleDeleteSelected = useCallback(() => {
     if (selectedIds.length === 0) return;
-    if (!confirm(`Delete ${selectedIds.length} selected accounts?`)) return;
-    await fetch("/api/accounts", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ids: selectedIds }),
-    });
-    setRowSelection({});
-    refetch();
+    setDeleteDialogOpen(true);
+  }, [selectedIds]);
+
+  const handleConfirmDelete = useCallback(async () => {
+    if (selectedIds.length === 0) return;
+    setIsDeleting(true);
+    try {
+      await fetch("/api/accounts", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedIds }),
+      });
+      setRowSelection({});
+      refetch();
+    } finally {
+      setIsDeleting(false);
+      setDeleteDialogOpen(false);
+    }
   }, [selectedIds, refetch]);
 
   const lastUpdated = dataUpdatedAt
@@ -86,36 +103,36 @@ export default function DashboardPage() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="flex flex-col gap-6 p-8"
+      transition={{ duration: 0.2, ease: [0.2, 0, 0, 1] }}
+      className="flex flex-col gap-5 p-6 lg:p-8"
     >
       <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold tracking-tight">
-            Attack On Titan Revolution
+        <div className="flex flex-col gap-1.5">
+          <h1 className="text-2xl font-bold tracking-[-0.02em] text-fg">
+            {CURRENT_GAME}
           </h1>
-          <p className="text-xs text-muted flex items-center gap-2">
+          <div className="flex items-center gap-2 text-[10.24px] font-medium text-muted">
             <span className="inline-flex items-center gap-1.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
               </span>
               Live
             </span>
             {lastUpdated && (
               <>
                 <span className="text-meta">·</span>
-                <span className="text-meta">Updated {lastUpdated}</span>
+                <span className="text-meta">{lastUpdated}</span>
               </>
             )}
-          </p>
+          </div>
         </div>
         <Button
           variant="ghost"
           size="sm"
           onClick={() => refetch()}
           disabled={isFetching}
-          className="h-8 text-xs text-muted hover:text-fg gap-1.5"
+          className="h-8 text-xs text-muted hover:text-fg hover:bg-white/[0.04] gap-1.5 rounded-md transition-colors duration-150"
         >
           <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} />
           Refresh
@@ -124,24 +141,34 @@ export default function DashboardPage() {
 
       <StatsCards stats={response?.stats} isLoading={isLoading} />
 
-      <DataTableToolbar
-        search={search}
-        onSearchChange={handleSearchChange}
-        statusFilter={statusFilter}
-        onStatusFilterChange={handleStatusChange}
-        totalItems={response?.pagination.total ?? 0}
-        selectedCount={selectedCount}
-        onDeleteSelected={handleDeleteSelected}
-      />
+      <div className="flex flex-col gap-3">
+        <DataTableToolbar
+          search={search}
+          onSearchChange={handleSearchChange}
+          statusFilter={statusFilter}
+          onStatusFilterChange={handleStatusChange}
+          totalItems={response?.pagination.total ?? 0}
+          selectedCount={selectedCount}
+          onDeleteSelected={handleDeleteSelected}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
+      </div>
 
-      <DataTable
-        columns={columns}
-        data={response?.data ?? []}
-        sorting={sorting}
-        onSortingChange={handleSortingChange}
-        rowSelection={rowSelection}
-        onRowSelectionChange={setRowSelection}
-      />
+      {viewMode === "table" ? (
+        <DataTable
+          columns={columns}
+          data={response?.data ?? []}
+          sorting={sorting}
+          onSortingChange={handleSortingChange}
+          rowSelection={rowSelection}
+          onRowSelectionChange={setRowSelection}
+        />
+      ) : (
+        <DataFamilyView
+          data={response?.data ?? []}
+        />
+      )}
 
       <DataTablePagination
         page={page}
@@ -150,6 +177,14 @@ export default function DashboardPage() {
         total={response?.pagination.total ?? 0}
         onPageChange={setPage}
         onPageSizeChange={handlePageSizeChange}
+      />
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        count={selectedIds.length}
+        onConfirm={handleConfirmDelete}
+        isPending={isDeleting}
       />
     </motion.div>
   );
