@@ -32,6 +32,7 @@ type UseAccountsParams = {
   search?: string;
   status?: "online" | "offline" | null;
   family?: string | null;
+  enabled?: boolean;
 };
 
 async function fetchAccounts(params: UseAccountsParams): Promise<AccountsResponse> {
@@ -51,9 +52,11 @@ async function fetchAccounts(params: UseAccountsParams): Promise<AccountsRespons
 }
 
 export function useAccounts(params: UseAccountsParams = {}) {
+  const { enabled = true, ...fetchParams } = params;
   return useQuery({
-    queryKey: ["accounts", params],
-    queryFn: () => fetchAccounts(params),
+    queryKey: ["accounts", fetchParams],
+    queryFn: () => fetchAccounts(fetchParams),
     refetchInterval: 30_000,
+    enabled,
   });
 }

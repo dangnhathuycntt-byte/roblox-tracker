@@ -40,6 +40,14 @@ export default function DashboardPage() {
     status: statusFilter === "all" ? null : statusFilter,
   });
 
+  const { data: allResponse } = useAccounts({
+    page: 1,
+    pageSize: 10000,
+    search: search || undefined,
+    status: statusFilter === "all" ? null : statusFilter,
+    enabled: viewMode === "family",
+  });
+
   const handleSearchChange = useCallback((value: string) => {
     setSearch(value);
     setPage(1);
@@ -166,18 +174,20 @@ export default function DashboardPage() {
         />
       ) : (
         <DataFamilyView
-          data={response?.data ?? []}
+          data={allResponse?.data ?? []}
         />
       )}
 
-      <DataTablePagination
-        page={page}
-        pageSize={pageSize}
-        totalPages={response?.pagination.totalPages ?? 1}
-        total={response?.pagination.total ?? 0}
-        onPageChange={setPage}
-        onPageSizeChange={handlePageSizeChange}
-      />
+      {viewMode === "table" && (
+        <DataTablePagination
+          page={page}
+          pageSize={pageSize}
+          totalPages={response?.pagination.totalPages ?? 1}
+          total={response?.pagination.total ?? 0}
+          onPageChange={setPage}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      )}
 
       <ConfirmDeleteDialog
         open={deleteDialogOpen}

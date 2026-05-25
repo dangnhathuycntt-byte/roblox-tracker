@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
 
   const page = Math.max(1, Number(params.get("page") ?? 1));
-  const pageSize = Math.min(100, Math.max(1, Number(params.get("pageSize") ?? 50)));
+  const pageSize = Math.min(10000, Math.max(1, Number(params.get("pageSize") ?? 50)));
   const sortBy = (params.get("sort") ?? "username") as SortKey;
   const order = params.get("order") === "desc" ? "desc" : "asc";
   const search = params.get("search") ?? "";
