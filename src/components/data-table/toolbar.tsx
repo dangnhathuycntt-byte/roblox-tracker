@@ -3,7 +3,9 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Trash2, X } from "lucide-react";
+import { List, Search, Trash2, Users, X } from "lucide-react";
+
+type ViewMode = "table" | "family";
 
 type ToolbarProps = {
   search: string;
@@ -13,6 +15,8 @@ type ToolbarProps = {
   totalItems: number;
   selectedCount?: number;
   onDeleteSelected?: () => void;
+  viewMode?: ViewMode;
+  onViewModeChange?: (mode: ViewMode) => void;
 };
 
 export function DataTableToolbar({
@@ -23,37 +27,39 @@ export function DataTableToolbar({
   totalItems,
   selectedCount = 0,
   onDeleteSelected,
+  viewMode = "table",
+  onViewModeChange,
 }: ToolbarProps) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-meta" />
           <Input
             placeholder="Search usernames..."
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-72 h-9 text-sm bg-surface border-border pl-9 pr-8 rounded-md placeholder:text-muted focus-visible:ring-accent/30 focus-visible:border-accent/30"
+            className="w-80 h-9 text-[13px] bg-transparent border-border pl-9 pr-8 rounded-md placeholder:text-meta focus-visible:ring-accent/30 focus-visible:border-accent/40 transition-colors duration-150"
           />
           {search && (
             <button
               onClick={() => onSearchChange("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-meta hover:text-fg transition-colors"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-meta hover:text-fg transition-colors duration-150"
             >
               <X className="h-3.5 w-3.5" />
             </button>
           )}
         </div>
-        <div className="flex items-center gap-1 p-1 rounded-md bg-surface border border-border">
+        <div className="flex items-center rounded-md overflow-hidden">
           {(["all", "online", "offline"] as const).map((s) => (
             <Button
               key={s}
               variant="ghost"
               size="sm"
-              className={`h-7 text-xs capitalize rounded-[4px] transition-all duration-150 ${
+              className={`h-8 px-3 text-[10.24px] font-bold uppercase tracking-[0.04em] capitalize rounded-none transition-all duration-150 ${
                 statusFilter === s
-                  ? "bg-white/[0.06] text-fg"
-                  : "text-muted hover:text-fg hover:bg-white/[0.03]"
+                  ? "text-accent"
+                  : "text-muted hover:text-fg/80"
               }`}
               onClick={() => onStatusFilterChange(s)}
             >
@@ -75,14 +81,14 @@ export function DataTableToolbar({
           <div className="flex items-center gap-2 mr-2 animate-in fade-in slide-in-from-right-2 duration-200">
             <Badge
               variant="outline"
-              className="text-xs font-medium text-accent border-accent/30 rounded-[4px]"
+              className="text-[11px] font-medium text-accent border-accent/30 rounded"
             >
               {selectedCount} selected
             </Badge>
             <Button
               variant="ghost"
               size="sm"
-              className="h-7 text-xs text-danger hover:text-danger hover:bg-danger/10 rounded-[4px] gap-1"
+              className="h-7 text-[11px] text-danger hover:text-danger hover:bg-danger/10 rounded gap-1"
               onClick={onDeleteSelected}
             >
               <Trash2 className="h-3 w-3" />
@@ -90,12 +96,35 @@ export function DataTableToolbar({
             </Button>
           </div>
         )}
-        <Badge
-          variant="outline"
-          className="text-xs font-medium text-muted border-border rounded-[4px]"
-        >
-          {totalItems.toLocaleString()} items
-        </Badge>
+        <span className="text-[11px] font-medium text-meta tabular-nums">
+          {totalItems.toLocaleString()} accounts
+        </span>
+        {onViewModeChange && (
+          <div className="flex items-center rounded-md overflow-hidden border border-border/30">
+            <button
+              onClick={() => onViewModeChange("table")}
+              className={`h-7 w-7 flex items-center justify-center transition-colors duration-150 ${
+                viewMode === "table"
+                  ? "bg-fg/10 text-fg"
+                  : "text-muted hover:text-fg"
+              }`}
+              aria-label="Table view"
+            >
+              <List className="h-3.5 w-3.5" />
+            </button>
+            <button
+              onClick={() => onViewModeChange("family")}
+              className={`h-7 w-7 flex items-center justify-center transition-colors duration-150 ${
+                viewMode === "family"
+                  ? "bg-fg/10 text-fg"
+                  : "text-muted hover:text-fg"
+              }`}
+              aria-label="Family view"
+            >
+              <Users className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

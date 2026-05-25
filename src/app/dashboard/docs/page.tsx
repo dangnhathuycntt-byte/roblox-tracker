@@ -332,7 +332,7 @@ export default function DocsPage() {
               <div>
                 <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">Delete selected</p>
                 <pre className="text-xs font-mono text-fg-2 bg-bg rounded-[4px] p-3 border border-border-soft leading-relaxed">
-{`POST /api/accounts
+{`DELETE /api/accounts
 Content-Type: application/json
 
 {"ids": [1, 5, 42]}`}</pre>
@@ -340,7 +340,7 @@ Content-Type: application/json
               <div>
                 <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">Delete all</p>
                 <pre className="text-xs font-mono text-fg-2 bg-bg rounded-[4px] p-3 border border-border-soft leading-relaxed">
-{`POST /api/accounts
+{`DELETE /api/accounts
 Content-Type: application/json
 
 {"all": true, "confirm": "yes-delete-all"}`}</pre>

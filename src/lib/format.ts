@@ -33,5 +33,5 @@ export function timeAgo(date: Date | string | null): string {
   const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours}h ago`;
   const days = Math.floor(hours / 24);
-  return `${days} days ago`;
+  return `${days} ${days === 1 ? "day" : "days"} ago`;
 }

@@ -56,19 +56,19 @@ export function DataTable<TData>({
   });
 
   return (
-    <div className="rounded-md border border-border bg-surface/50 overflow-auto shadow-sm">
+    <div className="overflow-auto">
       <Table>
-        <TableHeader>
+        <TableHeader className="sticky top-0 z-10">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow
               key={headerGroup.id}
-              className="border-border-soft hover:bg-transparent"
+              className="border-border hover:bg-transparent"
             >
               {headerGroup.headers.map((header) => (
                 <TableHead
                   key={header.id}
                   style={{ width: header.getSize() }}
-                  className="text-muted text-[11px] font-semibold uppercase tracking-wider h-11"
+                  className="text-muted text-[10.24px] font-extrabold uppercase tracking-[0.08em] h-10 border-b border-border/30 leading-none"
                 >
                   {header.isPlaceholder
                     ? null
@@ -90,14 +90,22 @@ export function DataTable<TData>({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15, delay: i * 0.01 }}
+                  transition={{ duration: 0.15, ease: [0.2, 0, 0, 1], delay: Math.min(i * 0.01, 0.1) }}
                   data-state={row.getIsSelected() ? "selected" : undefined}
-                  className="border-b border-border-soft hover:bg-white/[0.03] transition-colors duration-150 data-[state=selected]:bg-accent/[0.06]"
+                  onClick={() => row.toggleSelected(!row.getIsSelected())}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      row.toggleSelected(!row.getIsSelected());
+                    }
+                  }}
+                  className="border-b border-border/20 transition-colors duration-150 cursor-pointer data-[state=selected]:bg-accent/[0.08] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 hover:bg-accent/[0.04]"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="py-3 text-sm text-fg/90"
+                      className="py-4 px-3 text-[12.8px]"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

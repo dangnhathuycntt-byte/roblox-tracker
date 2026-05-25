@@ -81,89 +81,114 @@
 }
 
 :root {
-  /* Surfaces — Linear dark-native palette */
-  --bg:           #08090a;
-  --surface:      #191a1b;
-  --surface-warm: #191a1b;
+  /* Surfaces — Phoenix light palette */
+  --bg:           #f5f7fa;
+  --surface:      #ffffff;
+  --surface-warm: #eff2f6;
 
-  /* Foreground — luminance hierarchy */
-  --fg:     #f7f8f8;
-  --fg-2:   #d0d6e0;
-  --muted:  #8a8f98;
-  --meta:   #62666d;
+  /* Foreground — Phoenix light ink hierarchy */
+  --fg:     #141824;
+  --fg-2:   #525b75;
+  --muted:  #8a94ad;
+  --meta:   #9fa6bc;
 
-  /* Borders — semi-transparent white */
-  --border:      rgba(255, 255, 255, 0.08);
-  --border-soft: rgba(255, 255, 255, 0.05);
+  /* Borders — Phoenix light */
+  --border:      #e3e6ed;
+  --border-soft: #eff2f6;
 
-  /* Accent — indigo-violet */
-  --accent:        #5e6ad2;
+  /* Accent — Phoenix blue */
+  --accent:        #3874ff;
   --accent-on:     #ffffff;
-  --accent-hover:  #828fff;
-  --accent-active: #4752c4;
+  --accent-hover:  #004dff;
+  --accent-active: #6090ff;
 
-  /* Semantic */
-  --success: #27a644;
-  --warn:    #eab308;
-  --danger:  #dc2626;
+  /* Semantic — Phoenix status */
+  --success: #25b003;
+  --warn:    #e5780b;
+  --danger:  #fa3b1d;
 
   /* Typography */
-  --font-display: "Inter Variable", "Inter", "SF Pro Display", -apple-system, sans-serif;
-  --font-body:    "Inter Variable", "Inter", "SF Pro Display", -apple-system, sans-serif;
+  --font-display: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  --font-body:    "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
 
-  /* Type scale */
-  --text-xs:   12px;
-  --text-sm:   14px;
-  --text-base: 16px;
-  --text-lg:   18px;
-  --text-xl:   24px;
-  --text-2xl:  32px;
-  --text-3xl:  48px;
-  --text-4xl:  72px;
+  /* Type scale — Phoenix-aligned */
+  --text-xs:   10.24px;
+  --text-sm:   12.8px;
+  --text-base: 14px;
+  --text-lg:   16px;
+  --text-xl:   20px;
+  --text-2xl:  25px;
+  --text-3xl:  31.25px;
+  --text-4xl:  39px;
 
-  /* Leading */
-  --leading-body:  1.5;
-  --leading-tight: 1.0;
+  --leading-body:  1.49;
+  --leading-tight: 1.2;
 
-  /* Spacing (4px grid) */
   --space-1:  4px;
   --space-2:  8px;
-  --space-3:  12px;
-  --space-4:  16px;
-  --space-5:  20px;
-  --space-6:  24px;
-  --space-8:  32px;
-  --space-12: 48px;
+  --space-3:  16px;
+  --space-4:  24px;
+  --space-5:  32px;
+  --space-6:  40px;
+  --space-8:  56px;
+  --space-12: 96px;
 
-  /* Section rhythm */
-  --section-y-desktop: 80px;
-  --section-y-tablet:  48px;
-  --section-y-phone:   32px;
+  --section-y-desktop: 64px;
+  --section-y-tablet:  40px;
+  --section-y-phone:   24px;
 
-  /* Radius */
-  --radius-sm-val:   6px;
-  --radius-md-val:   8px;
-  --radius-lg-val:   12px;
+  /* Radius — Phoenix */
+  --radius-sm-val:   4px;
+  --radius-md-val:   6px;
+  --radius-lg-val:   8px;
   --radius-pill:     9999px;
 
-  /* Elevation — luminance stepping */
+  /* Elevation — Phoenix light */
   --elev-flat:   none;
   --elev-ring:   0 0 0 1px var(--border);
-  --elev-raised: rgba(0, 0, 0, 0.4) 0px 2px 4px, 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --elev-raised: 0px 2px 4px -2px rgba(36, 40, 46, 0.08);
 
-  /* Focus */
-  --focus-ring: 0 0 0 2px color-mix(in oklab, var(--accent), transparent 30%), 0 4px 12px rgba(0, 0, 0, 0.1);
+  --focus-ring: 0 0 0 0.25rem rgba(56, 116, 255, 0.25);
 
-  /* Motion */
-  --motion-fast:   150ms;
+  --motion-fast:   100ms;
   --motion-base:   200ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 
-  /* Layout */
-  --container-max:            1200px;
-  --container-gutter-desktop: 24px;
-  --container-gutter-tablet:  16px;
-  --container-gutter-phone:   12px;
+  --container-max:            1678px;
+  --container-gutter-desktop: 40px;
+  --container-gutter-tablet:  24px;
+  --container-gutter-phone:   16px;
+}
+
+.dark {
+  /* Surfaces — Phoenix dark (navy) */
+  --bg:           #0f111a;
+  --surface:      #141824;
+  --surface-warm: #222834;
+
+  /* Foreground — Phoenix dark ink */
+  --fg:     #eff2f6;
+  --fg-2:   #cbd0dd;
+  --muted:  #8a94ad;
+  --meta:   #6e7891;
+
+  /* Borders — Phoenix dark */
+  --border:      #373e53;
+  --border-soft: #222834;
+
+  /* Accent — Phoenix dark (lighter blue) */
+  --accent:        #85a9ff;
+  --accent-on:     #0f111a;
+  --accent-hover:  #adc5ff;
+  --accent-active: #6090ff;
+
+  /* Semantic — Phoenix dark (lighter) */
+  --success: #90d67f;
+  --warn:    #ffcc85;
+  --danger:  #f48270;
+
+  /* Elevation — Phoenix dark */
+  --elev-raised: 0px 2px 4px -2px rgba(0, 0, 0, 0.3);
 }
 
 @layer base {

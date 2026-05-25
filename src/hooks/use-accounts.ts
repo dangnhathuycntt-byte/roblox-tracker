@@ -31,6 +31,7 @@ type UseAccountsParams = {
   order?: "asc" | "desc";
   search?: string;
   status?: "online" | "offline" | null;
+  family?: string | null;
 };
 
 async function fetchAccounts(params: UseAccountsParams): Promise<AccountsResponse> {
@@ -42,6 +43,7 @@ async function fetchAccounts(params: UseAccountsParams): Promise<AccountsRespons
   if (params.order) searchParams.set("order", params.order);
   if (params.search) searchParams.set("search", params.search);
   if (params.status) searchParams.set("status", params.status);
+  if (params.family) searchParams.set("family", params.family);
 
   const res = await fetch(`/api/accounts?${searchParams.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch accounts");

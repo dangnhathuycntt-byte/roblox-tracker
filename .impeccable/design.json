@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-24T17:45:00Z",
+  "title": "Design System: Roblox Tracker",
+  "extensions": {
+    "colorMeta": {
+      "void-black": { "role": "neutral", "displayName": "Void Black", "canonical": "oklch(7% 0.005 250)", "tonalRamp": ["#020203", "#040506", "#08090a", "#0d0e10", "#121315", "#17181a", "#1c1d1f", "#212224"] },
+      "gunmetal-surface": { "role": "neutral", "displayName": "Gunmetal Surface", "canonical": "oklch(15% 0.005 250)", "tonalRamp": ["#08090a", "#0d0e10", "#121315", "#191a1b", "#202123", "#27282a", "#2e2f31", "#353638"] },
+      "near-white": { "role": "neutral", "displayName": "Near White", "canonical": "oklch(97.5% 0.003 250)", "tonalRamp": ["#c8ccce", "#d4d8da", "#e0e3e5", "#eceeef", "#f7f8f8", "#f8f9f9", "#fafafa", "#fbfbfb"] },
+      "silver-data": { "role": "neutral", "displayName": "Silver Data", "canonical": "oklch(87% 0.015 255)", "tonalRamp": ["#707880", "#808890", "#909aa4", "#a0aab4", "#b0bac4", "#c0c8d0", "#d0d6e0", "#dce2ec"] },
+      "ash-muted": { "role": "neutral", "displayName": "Ash Muted", "canonical": "oklch(63% 0.01 255)", "tonalRamp": ["#4a4f56", "#565b62", "#62676e", "#6e737a", "#7a7f86", "#868b92", "#8a8f98", "#969ba4"] },
+      "ghost-meta": { "role": "neutral", "displayName": "Ghost Meta", "canonical": "oklch(45% 0.01 250)", "tonalRamp": ["#32363b", "#3e4247", "#4a4e53", "#56595f", "#62666d", "#6e7279", "#7a7e85", "#868a91"] },
+      "indigo-accent": { "role": "primary", "displayName": "Indigo Accent", "canonical": "oklch(52% 0.17 275)", "tonalRamp": ["#2a3060", "#374080", "#4450a0", "#5060c0", "#5e6ad2", "#7080e0", "#828fff", "#a0b0ff"] },
+      "signal-green": { "role": "semantic", "displayName": "Signal Green", "canonical": "oklch(62% 0.18 145)", "tonalRamp": ["#0a4a18", "#127020", "#1a8830", "#20963a", "#27a644", "#34b850", "#48cc64", "#60e078"] },
+      "signal-amber": { "role": "semantic", "displayName": "Signal Amber", "canonical": "oklch(80% 0.18 90)", "tonalRamp": ["#6a5000", "#8a6800", "#aa8000", "#c89800", "#eab308", "#f0c030", "#f4d060", "#f8e090"] },
+      "signal-red": { "role": "semantic", "displayName": "Signal Red", "canonical": "oklch(52% 0.22 25)", "tonalRamp": ["#600a0a", "#801414", "#a01c1c", "#c02020", "#dc2626", "#e84040", "#f05858", "#f87070"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page titles and hero metrics. Rare." },
+      "headline": { "displayName": "Headline", "purpose": "Section headers within dashboard." },
+      "title": { "displayName": "Title", "purpose": "Card titles, dialog headers." },
+      "body": { "displayName": "Body", "purpose": "Table cells, descriptions. Max 75ch." },
+      "label": { "displayName": "Label", "purpose": "Column headers, nav section labels, stat card labels. The workhorse." }
+    },
+    "shadows": [
+      { "name": "flat", "value": "none", "purpose": "Resting state for all surfaces." },
+      { "name": "ring", "value": "0 0 0 1px rgba(255, 255, 255, 0.08)", "purpose": "Subtle containment border for cards and containers." },
+      { "name": "raised", "value": "rgba(0, 0, 0, 0.4) 0px 2px 4px, 0 0 0 1px rgba(255, 255, 255, 0.05)", "purpose": "Dropdowns, popovers, floating elements only." },
+      { "name": "focus-ring", "value": "0 0 0 2px color-mix(in oklab, #5e6ad2, transparent 30%), 0 4px 12px rgba(0, 0, 0, 0.1)", "purpose": "Keyboard focus indicator." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.2, 0, 0, 1)", "purpose": "Default easing for all state transitions." },
+      { "name": "duration-fast", "value": "150ms", "purpose": "Micro-interactions: hover, focus, toggle." },
+      { "name": "duration-base", "value": "200ms", "purpose": "Standard transitions: expand, collapse, fade." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Indigo accent button for primary CTAs. Used sparingly.",
+      "html": "<button class=\"ds-btn-primary\">Action</button>",
+      "css": ".ds-btn-primary { background: #5e6ad2; color: #ffffff; padding: 8px 16px; font-size: 14px; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: background 200ms cubic-bezier(0.2, 0, 0, 1); } .ds-btn-primary:hover { background: #828fff; } .ds-btn-primary:active { background: #4752c4; } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 2px color-mix(in oklab, #5e6ad2, transparent 30%), 0 4px 12px rgba(0, 0, 0, 0.1); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Transparent button with muted text. The default button style.",
+      "html": "<button class=\"ds-btn-ghost\">Action</button>",
+      "css": ".ds-btn-ghost { background: transparent; color: #8a8f98; padding: 8px 12px; font-size: 14px; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: background 200ms cubic-bezier(0.2, 0, 0, 1), color 200ms cubic-bezier(0.2, 0, 0, 1); } .ds-btn-ghost:hover { background: rgba(255, 255, 255, 0.04); color: #f7f8f8; } .ds-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 2px color-mix(in oklab, #5e6ad2, transparent 30%), 0 4px 12px rgba(0, 0, 0, 0.1); }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input-default",
+      "description": "Transparent input with border containment.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Search accounts...\" />",
+      "css": ".ds-input { background: transparent; color: #f7f8f8; padding: 8px 12px; font-size: 14px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; outline: none; width: 100%; transition: border-color 200ms cubic-bezier(0.2, 0, 0, 1), box-shadow 200ms cubic-bezier(0.2, 0, 0, 1); } .ds-input::placeholder { color: #8a8f98; } .ds-input:focus { border-color: #5e6ad2; box-shadow: 0 0 0 2px color-mix(in oklab, #5e6ad2, transparent 30%), 0 4px 12px rgba(0, 0, 0, 0.1); }"
+    },
+    {
+      "name": "Nav Item",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "Sidebar navigation item with active indicator.",
+      "html": "<a class=\"ds-nav-item\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z\"/></svg> Dashboard</a>",
+      "css": ".ds-nav-item { display: flex; align-items: center; gap: 12px; padding: 8px 12px; font-size: 13px; color: #8a8f98; text-decoration: none; border-radius: 6px; transition: color 200ms cubic-bezier(0.2, 0, 0, 1), background 200ms cubic-bezier(0.2, 0, 0, 1); } .ds-nav-item:hover { color: #f7f8f8; background: rgba(255, 255, 255, 0.04); } .ds-nav-item.active { color: #5e6ad2; background: rgba(94, 106, 210, 0.1); font-weight: 500; }"
+    },
+    {
+      "name": "Stat Card",
+      "kind": "card",
+      "refersTo": "table-row",
+      "description": "Dense metric card with icon badge and large number.",
+      "html": "<div class=\"ds-stat-card\"><div class=\"ds-stat-header\"><div class=\"ds-stat-badge\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"1\"/><circle cx=\"12\" cy=\"5\" r=\"1\"/><circle cx=\"12\" cy=\"19\" r=\"1\"/></svg></div><span class=\"ds-stat-label\">GOLD</span></div><span class=\"ds-stat-value\">1.2M</span></div>",
+      "css": ".ds-stat-card { background: #191a1b; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: border-color 200ms cubic-bezier(0.2, 0, 0, 1); } .ds-stat-card:hover { border-color: rgba(255, 255, 255, 0.12); } .ds-stat-header { display: flex; align-items: center; gap: 6px; } .ds-stat-badge { width: 32px; height: 32px; border-radius: 50%; background: rgba(234, 179, 8, 0.1); display: flex; align-items: center; justify-content: center; color: #eab308; } .ds-stat-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #62666d; } .ds-stat-value { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; color: #eab308; }"
+    },
+    {
+      "name": "Table Row",
+      "kind": "custom",
+      "refersTo": "table-row",
+      "description": "Data table row with alternating stripe and selection state.",
+      "html": "<div class=\"ds-table-row\"><span class=\"ds-cell\">account_001</span><span class=\"ds-cell ds-cell-num\">12,450</span><span class=\"ds-cell ds-cell-status\"><span class=\"ds-dot ds-dot-online\"></span> Online</span></div>",
+      "css": ".ds-table-row { display: flex; align-items: center; padding: 14px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; transition: background 150ms cubic-bezier(0.2, 0, 0, 1); } .ds-table-row:hover { background: rgba(255, 255, 255, 0.05); } .ds-table-row:nth-child(even) { background: rgba(255, 255, 255, 0.025); } .ds-table-row:nth-child(even):hover { background: rgba(255, 255, 255, 0.06); } .ds-table-row.selected { background: rgba(94, 106, 210, 0.08); } .ds-cell { font-size: 14px; color: rgba(247, 248, 248, 0.9); flex: 1; } .ds-cell-num { font-variant-numeric: tabular-nums; } .ds-cell-status { display: flex; align-items: center; gap: 6px; } .ds-dot { width: 6px; height: 6px; border-radius: 50%; } .ds-dot-online { background: #27a644; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The War Room",
+    "overview": "A dimly lit operations room where every pixel carries data and nothing is decorative. The interface IS the mission. Roblox Tracker monitors hundreds of game accounts simultaneously; the design exists to make that surveillance instant, effortless, and unambiguous. The system is dark-native by necessity, not trend. The operator works long sessions scanning dense numeric data. Dark surfaces reduce eye strain; high-contrast text makes numbers pop.",
+    "keyCharacteristics": [
+      "Dark-native with luminance-stepped neutrals, never true black or white",
+      "Single accent (indigo-violet) reserved for interactive elements only",
+      "Uppercase micro-labels for scannable section headers",
+      "Dense grid layouts optimized for simultaneous multi-stat monitoring",
+      "Framer Motion for subtle state transitions, no choreography"
+    ],
+    "rules": [
+      { "name": "The Reservation Rule", "body": "Indigo appears on less than 10% of any screen. Active nav indicators, selected checkboxes, focus rings, primary buttons. That's it.", "section": "colors" },
+      { "name": "The Tinted Neutral Rule", "body": "No #000 or #fff anywhere. Every neutral carries a faint warm tint.", "section": "colors" },
+      { "name": "The Label Doctrine", "body": "Section headers and data labels are always uppercase, 10-11px, semi-bold, with wide letter-spacing (0.1-0.15em).", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. The raised shadow appears only on floating elements (dropdowns, popovers, dialogs).", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use the label doctrine for every section header and data label",
+      "Do pair semantic colors with text labels or icons; never rely on color alone",
+      "Do use luminance stepping to create depth without shadows",
+      "Do keep the accent under 10% of any screen surface",
+      "Do use framer-motion at 150-200ms with ease-standard easing",
+      "Do use semi-transparent white overlays (4-8%) for hover states"
+    ],
+    "donts": [
+      "Don't use gradient text",
+      "Don't use rounded pastel cards",
+      "Don't use glassmorphism decoratively",
+      "Don't use border-left or border-right greater than 1px as colored accent stripes",
+      "Don't add whitespace for breathing room; information density wins",
+      "Don't use hero sections, marketing headlines, or consumer onboarding patterns",
+      "Don't use bounce, elastic, or spring animations"
+    ]
+  }
+}
