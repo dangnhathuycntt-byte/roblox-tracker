@@ -17,6 +17,7 @@ import {
   Dice5,
   BookOpen,
   Gamepad2,
+  Gift,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,6 +37,7 @@ const GAMES = [
 ] as const;
 
 const NAV_ITEMS = [
+  { name: "Redeem Codes", icon: Gift, href: "/dashboard/codes" },
   { name: "API Docs", icon: BookOpen, href: "/dashboard/docs" },
 ];
 

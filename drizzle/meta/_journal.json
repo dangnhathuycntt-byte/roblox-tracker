@@ -8,6 +8,13 @@
       "when": 1779557393278,
       "tag": "0000_regular_colossus",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1779801609828,
+      "tag": "0001_reflective_dorian_gray",
+      "breakpoints": true
     }
   ]
 }

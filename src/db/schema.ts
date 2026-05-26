@@ -44,3 +44,15 @@ export const accounts = sqliteTable("accounts", {
 
 export type Account = typeof accounts.$inferSelect;
 export type NewAccount = typeof accounts.$inferInsert;
+
+export const redeemCodes = sqliteTable("redeem_codes", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  code: text("code", { length: 64 }).notNull().unique(),
+  description: text("description", { length: 256 }),
+  isActive: integer("is_active", { mode: "boolean" }).default(true).notNull(),
+  createdAt: text("created_at").default("").notNull(),
+  updatedAt: text("updated_at").default("").notNull(),
+});
+
+export type RedeemCode = typeof redeemCodes.$inferSelect;
+export type NewRedeemCode = typeof redeemCodes.$inferInsert;
