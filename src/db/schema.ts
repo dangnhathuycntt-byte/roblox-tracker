@@ -38,6 +38,7 @@ export const accounts = sqliteTable("accounts", {
   status: text("status", { length: 32 }),
   family: text("family", { length: 64 }),
   tutorial: integer("tutorial", { mode: "boolean" }).default(false).notNull(),
+  redeemCode: text("redeem_code").default('[]').notNull(),
   createdAt: text("created_at").default("").notNull(),
   updatedAt: text("updated_at").default("").notNull(),
 });

@@ -28,7 +28,7 @@ const SAFE_FIELDS = new Set([
   "prestige", "xp", "spins", "inventory_count", "perks_count",
   "inventory", "perks", "note_tag", "is_online", "last_seen",
   "customised", "spins_used", "bought_spins", "status", "family",
-  "tutorial", "created",
+  "tutorial", "created", "redeemCode",
 ]);
 
 export async function GET(request: NextRequest) {
@@ -135,7 +135,10 @@ export async function POST(request: NextRequest) {
     switch (key) {
       case "inventory":
       case "perks":
-        values[key === "inventory" ? "inventory" : "perks"] = parseJson(val);
+      case "redeemCode":
+        if (key === "inventory") values.inventory = parseJson(val);
+        else if (key === "perks") values.perks = parseJson(val);
+        else values.redeemCode = parseJson(val);
         break;
       case "created":
         values.createdAt = val;

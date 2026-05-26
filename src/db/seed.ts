@@ -130,6 +130,7 @@ function seed() {
       perksCount: perks.reduce((sum, p) => sum + p.level, 0),
       inventory: JSON.stringify(inventory),
       perks: JSON.stringify(perks),
+      redeemCode: JSON.stringify([]),
       isOnline,
       lastSeen: new Date(Date.now() - daysAgo * 86400000).toISOString(),
       createdAt: new Date().toISOString(),
